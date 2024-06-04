@@ -1,0 +1,52 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=100000
+SAVEHIST=100000
+setopt autocd extendedglob
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/jeff/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+unalias lsd
+
+alias q=pueue
+alias qf="pueue follow"
+alias qadd="pueue add"
+alias vim=nvim
+
+function tmach { tmux attach || (tmux && tmux attach) }
+
+export EDITOR=nvim
+export TERM=tmux-256color
+#source /usr/share/fzf/key-bindings.zsh
+#source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+eval "$(sheldon source)"
+eval "$(sheldon completions --shell zsh)"
+eval "$(zoxide init zsh)"
+
+PERLDIR="$HOME/.local/perl5"
+export PATH="$HOME/.local/bin:$PERLDIR/bin${PATH:+:${PATH}}:/usr/share/bcc/tools:/opt/intel/oneapi/compiler/2024.1/bin"
+export PERL5LIB="$PERLDIR/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="$PERLDIR${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"$PERLDIR\""
+export PERL_MM_OPT="INSTALL_BASE=$PERLDIR"
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba init' !!
+export MAMBA_EXE='/usr/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/jeff/.micromamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+
+export FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"
